@@ -1,4 +1,4 @@
-package com.softwaremill.tostringmask
+package com.softwaremill.macros.customize
 
 import scala.annotation.StaticAnnotation
 import scala.language.experimental.macros
@@ -59,7 +59,10 @@ object CustomizeImpl {
     annottees map (_.tree) toList match {
       case (classDecl: ClassDef) :: Nil =>
         modifiedDeclaration(classDecl)
-      case _ =>
+      case (classDecl: ClassDef) :: anything =>
+        modifiedDeclaration(classDecl)
+      case other =>
+        c.warning(c.enclosingPosition, showRaw(other))
         c.abort(c.enclosingPosition, "Invalid annottee, expected case class.")
     }
   }

@@ -3,7 +3,7 @@ A micro-library for macro-based case class field masking in .toString
 
 Example usage:
 ```scala
-import com.softwaremill.tostringmask.{customize, mask}
+import com.softwaremill.macros.customize.{customize, mask}
 import java.util.Date
 
 @customize
