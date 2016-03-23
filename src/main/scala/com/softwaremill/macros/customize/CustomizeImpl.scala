@@ -32,7 +32,7 @@ class CustomizeImpl(val c: whitebox.Context) {
               case _ =>
                 accList :+ q"$field.toString"
             }
-          case _ => c.abort(c.enclosingPosition, "Cannot call .toString on tree " + showRaw(fieldTree))
+          case _ => c.abort(c.enclosingPosition, s"Cannot call .toString on field.")
         }
       }
       val treesAsTuple = Apply(Select(Ident(TermName("scala")), TermName("Tuple" + fieldListTree.length)), fieldListTree)
@@ -64,7 +64,6 @@ class CustomizeImpl(val c: whitebox.Context) {
       case (classDecl: ClassDef) :: tail =>
         modifiedDeclaration(classDecl, tail)
       case other =>
-        c.warning(c.enclosingPosition, showRaw(other))
         c.abort(c.enclosingPosition, "Invalid annottee, expected case class.")
     }
 
