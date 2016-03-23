@@ -40,30 +40,29 @@ object CustomizeImpl {
       """
     }
 
-    def modifiedDeclaration(classDecl: ClassDef) = {
+    def modifiedDeclaration(classDecl: ClassDef, tail: List[Tree] = List.empty) = {
       val (className, fields, parents, body) = extractCaseClassesParts(classDecl)
       val newToString = extractNewToString(className, fields)
-
       val params = fields.asInstanceOf[List[ValDef]] map { p => p.duplicate}
-
-      c.Expr[Any](
-        q"""
+      val e = q"""
         case class $className ( ..$params ) extends ..$parents {
           $newToString
           ..$body
         }
       """
-      )
+      val blockItems = e +: tail
+      c.Expr[Any](q"{..$blockItems}")
     }
 
     annottees map (_.tree) toList match {
       case (classDecl: ClassDef) :: Nil =>
         modifiedDeclaration(classDecl)
-      case (classDecl: ClassDef) :: anything =>
-        modifiedDeclaration(classDecl)
+      case (classDecl: ClassDef) :: tail =>
+        modifiedDeclaration(classDecl, tail)
       case other =>
         c.warning(c.enclosingPosition, showRaw(other))
         c.abort(c.enclosingPosition, "Invalid annottee, expected case class.")
     }
+
   }
 }

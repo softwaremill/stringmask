@@ -13,10 +13,24 @@ class ToStringMaskTest extends FlatSpec with Matchers {
 
   it should "mask fields" in {
     // given
-    println(new Date(1458732695220L).getTime.toString)
     val u = User20(1, "Secret Person", "secret@email.com", 15, ZonedDateTime.now())
 
     // then
     u.toString should be("User20(1,***,***,15,***)")
   }
+
+  it should "work on case classes which have custom companion objects" in {
+    // given
+    val u = User30(2)
+
+    // then
+    u.toString should be("User30(2,***)")
+  }
+}
+
+@customize
+case class User30(id: Int, @mask email: String)
+
+object User30 {
+  def apply(id: Int) = new User30(id, "default@email.com")
 }
