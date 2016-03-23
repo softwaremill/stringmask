@@ -1,6 +1,7 @@
+organization := "com.softwaremill.stringmask"
 name := "stringmask"
 
-version := "1.0"
+version := "1.0.0-SNAPSHOT"
 
 scalaVersion := "2.11.7"
 
