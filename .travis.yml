@@ -1,8 +1,8 @@
 sudo: false
 language: scala
 scala:
-   - 2.11.7
-   - 2.10.6
-script:
+  - "2.11.8"
+  - "2.10.6"
+jdk:
+  - oraclejdk8script:
    - sbt ++$TRAVIS_SCALA_VERSION test
-   - '[ "${TRAVIS_PULL_REQUEST}" = "false" ]
