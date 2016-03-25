@@ -1,6 +1,6 @@
 stringmask
 ==========
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.strignmask/stringmask_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.stringmask/stringmask_2.11)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.stringmask/stringmask_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.stringmask/stringmask_2.11)
 [![Software License](https://img.shields.io/badge/license-Apache 2-brightgreen.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/softwaremill/stringmask.svg?branch=master&style=flat)](https://travis-ci.org/softwaremill/stringmask)
 
