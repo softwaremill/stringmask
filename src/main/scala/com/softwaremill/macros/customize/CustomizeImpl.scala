@@ -20,6 +20,9 @@ class CustomizeImpl(val c: whitebox.Context) {
     def extractCaseClassesParts(classDecl: ClassDef) = classDecl match {
       case q"""case class $className(..$fields) extends ..$parents { ..$body }""" =>
         (className, fields, parents, body)
+      case q"""case class $className private(..$fields) extends ..$parents { ..$body }""" =>
+        (className, fields, parents, body)
+      case _ => c.abort(c.enclosingPosition, "Unsupported case class type. Cannot rewrite toString().")
     }
 
     def extractNewToString(typeName: TypeName, allFields: List[Tree]) = {

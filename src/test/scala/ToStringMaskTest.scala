@@ -1,5 +1,4 @@
 import java.time.ZonedDateTime
-import java.util.Date
 
 import com.softwaremill.macros.customize.{customize, mask}
 import org.scalatest.{FlatSpec, Matchers}
@@ -26,10 +25,25 @@ class ToStringMaskTest extends FlatSpec with Matchers {
     // then
     u.toString should be("User30(2,***)")
   }
+
+  it should "work on case classes with private constructors" in {
+    // given
+    val u = UserPrivate("some@email2.com")
+
+    // then
+    u.toString should be("UserPrivate(1,***)")
+  }
 }
 
 @customize
 case class User30(id: Int, @mask email: String)
+
+@customize
+case class UserPrivate private(id: Int, @mask email: String)
+
+object UserPrivate {
+  def apply(email: String) = new UserPrivate(1, email)
+}
 
 object User30 {
   def apply(id: Int) = new User30(id, "default@email.com")
