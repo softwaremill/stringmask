@@ -12,7 +12,7 @@ Builds are available for Scala 2.10.x and 2.11.x
 
 ````scala
 libraryDependencies ++= Seq(
-  "com.softwaremill.stringmask" %% "stringmask" % "1.1.0",
+  "com.softwaremill.stringmask" %% "stringmask" % "1.2.0-SNAPSHOT",
   compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 )
 ````
