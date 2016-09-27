@@ -33,7 +33,7 @@ class CustomizeImpl(val c: whitebox.Context) {
               case List(q"new mask()") =>
                 accList :+ Literal(Constant("***"))
               case _ =>
-                accList :+ q"$field.toString"
+                accList :+ q""""" + $field """
             }
           case _ => c.abort(c.enclosingPosition, s"Cannot call .toString on field.")
         }
