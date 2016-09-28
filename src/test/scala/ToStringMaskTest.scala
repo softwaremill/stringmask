@@ -33,10 +33,22 @@ class ToStringMaskTest extends FlatSpec with Matchers {
     // then
     u.toString should be("UserPrivate(1,***)")
   }
+
+  it should "work on fields with null value" in {
+    // given
+    val u = User40(3, null, null)
+
+    // then
+    u.toString should be("User40(3,***,null)")
+  }
+
 }
 
 @customize
 case class User30(id: Int, @mask email: String)
+
+@customize
+case class User40(id: Int, @mask email: String, something: String)
 
 @customize
 case class UserPrivate private(id: Int, @mask email: String)
