@@ -1,6 +1,7 @@
+package com.softwaremill.macros.customize
+
 import java.time.ZonedDateTime
 
-import com.softwaremill.macros.customize.{customize, mask}
 import org.scalatest.{FlatSpec, Matchers}
 
 class ToStringMaskTest extends FlatSpec with Matchers {
@@ -42,6 +43,22 @@ class ToStringMaskTest extends FlatSpec with Matchers {
     u.toString should be("User40(3,***,null)")
   }
 
+  it should "work on classes without any fields" in {
+    // given
+    val ec = EmptyClass()
+
+    // then
+    ec.toString should be("EmptyClass()")
+  }
+
+  it should "work on classes with 1 field" in {
+    // given
+    val sc = SmallClass(100)
+
+    // then
+    sc.toString should be("SmallClass(***)")
+  }
+
 }
 
 @customize
@@ -52,6 +69,12 @@ case class User40(id: Int, @mask email: String, something: String)
 
 @customize
 case class UserPrivate private(id: Int, @mask email: String)
+
+@customize
+case class EmptyClass()
+
+@customize
+case class SmallClass(@mask n: Int)
 
 object UserPrivate {
   def apply(email: String) = new UserPrivate(1, email)

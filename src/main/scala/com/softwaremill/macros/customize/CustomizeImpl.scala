@@ -38,11 +38,13 @@ class CustomizeImpl(val c: whitebox.Context) {
           case _ => c.abort(c.enclosingPosition, s"Cannot call .toString on field.")
         }
       }
-      val treesAsTuple = Apply(Select(Ident(TermName("scala")), TermName("Tuple" + fieldListTree.length)), fieldListTree)
+      val treesAsString = fieldListTree.reduceLeftOption { (commaSeparatedFieldsString, fieldString) =>
+        q"$commaSeparatedFieldsString + ',' + $fieldString"
+      }
       val typeNameStrTree = Literal(Constant(typeName.toString))
       q"""
          override def toString = {
-          $typeNameStrTree + $treesAsTuple
+          $typeNameStrTree + '(' + ${treesAsString.getOrElse(Literal(Constant("")))} + ')'
          }
       """
     }
