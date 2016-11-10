@@ -1,6 +1,6 @@
 stringmask
 ==========
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.stringmask/stringmask_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.stringmask/stringmask_2.11)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.stringmask/stringmask_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.stringmask/stringmask_2.12)
 [![Software License](https://img.shields.io/badge/license-Apache 2-brightgreen.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/softwaremill/stringmask.svg?branch=master&style=flat)](https://travis-ci.org/softwaremill/stringmask)
 
@@ -12,7 +12,7 @@ Builds are available for Scala 2.10, 2.11 and 2.12
 
 ````scala
 libraryDependencies ++= Seq(
-  "com.softwaremill.stringmask" %% "stringmask" % "1.1.1",
+  "com.softwaremill.stringmask" %% "stringmask" % "1.2.0",
   compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 )
 ````
