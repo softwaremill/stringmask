@@ -1,8 +1,6 @@
 organization := "com.softwaremill.stringmask"
 name := "stringmask"
 
-version := "1.2.0"
-
 scalaVersion := "2.12.2"
 
 crossScalaVersions := Seq(scalaVersion.value, "2.10.6", "2.11.11")
