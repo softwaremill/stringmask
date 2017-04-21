@@ -26,17 +26,18 @@ class CustomizeImpl(val c: whitebox.Context) {
     }
 
     def extractNewToString(typeName: TypeName, allFields: List[Tree]) = {
-      val fieldListTree = allFields.foldLeft(List.empty[Tree]) { case (accList, fieldTree) =>
-        fieldTree match {
-          case q"$m val $field: $fieldType = $sth" =>
-            m.annotations match {
-              case List(q"new mask()") =>
-                accList :+ Literal(Constant("***"))
-              case _ =>
-                accList :+ q""""" + $field """
-            }
-          case _ => c.abort(c.enclosingPosition, s"Cannot call .toString on field.")
-        }
+      val fieldListTree = allFields.foldLeft(List.empty[Tree]) {
+        case (accList, fieldTree) =>
+          fieldTree match {
+            case q"$m val $field: $fieldType = $sth" =>
+              m.annotations match {
+                case List(q"new mask()") =>
+                  accList :+ Literal(Constant("***"))
+                case _ =>
+                  accList :+ q""""" + $field """
+              }
+            case _ => c.abort(c.enclosingPosition, s"Cannot call .toString on field.")
+          }
       }
       val treesAsString = fieldListTree.reduceLeftOption { (commaSeparatedFieldsString, fieldString) =>
         q"$commaSeparatedFieldsString + ',' + $fieldString"
@@ -51,9 +52,11 @@ class CustomizeImpl(val c: whitebox.Context) {
 
     def modifiedDeclaration(classDecl: ClassDef, tail: List[Tree] = List.empty) = {
       val (className, fields, parents, body) = extractCaseClassesParts(classDecl)
-      val newToString = extractNewToString(className, fields)
-      val params = fields.asInstanceOf[List[ValDef]] map { p => p.duplicate}
-      val e = q"""
+      val newToString                        = extractNewToString(className, fields)
+      val params = fields.asInstanceOf[List[ValDef]] map { p =>
+        p.duplicate
+      }
+      val e          = q"""
         case class $className ( ..$params ) extends ..$parents {
           $newToString
           ..$body

@@ -68,7 +68,7 @@ case class User30(id: Int, @mask email: String)
 case class User40(id: Int, @mask email: String, something: String)
 
 @customize
-case class UserPrivate private(id: Int, @mask email: String)
+case class UserPrivate private (id: Int, @mask email: String)
 
 @customize
 case class EmptyClass()

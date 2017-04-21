@@ -8,10 +8,10 @@ scalaVersion := "2.12.2"
 crossScalaVersions := Seq(scalaVersion.value, "2.10.6", "2.11.11")
 
 libraryDependencies ++= Seq(
-  "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+  "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-  "org.typelevel" %% "macro-compat" % "1.1.1",
-  "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+  "org.typelevel"  %% "macro-compat"  % "1.1.1",
+  "org.scalatest"  %% "scalatest"     % "3.0.1" % "test"
 )
 
 publishTo := {
@@ -24,7 +24,9 @@ publishTo := {
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 publishMavenStyle := true
 publishArtifact in Test := false
-pomIncludeRepository := { _ => false }
+pomIncludeRepository := { _ =>
+  false
+}
 pomExtra :=
   <scm>
     <url>git@github.com:softwaremill/stringmask.git</url>
