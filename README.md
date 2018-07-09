@@ -8,7 +8,7 @@ A micro-library for macro-based case class field masking in `.toString()`.
 Inspired by blog by Juan Pedro Moreno @47deg: http://www.47deg.com/blog/scala-macros-annotate-your-case-classes
 
 ## Using stringmask
-Builds are available for Scala 2.10, 2.11 and 2.12 
+Builds are available for Scala 2.11 and 2.12
 
 ````scala
 libraryDependencies ++= Seq(

@@ -3,7 +3,7 @@ name := "stringmask"
 
 scalaVersion := "2.12.6"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.10.6", "2.11.11")
+crossScalaVersions := Seq(scalaVersion.value, "2.11.11")
 
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
