@@ -3,6 +3,7 @@ package com.softwaremill.macros.customize
 import java.time.ZonedDateTime
 
 import org.scalatest.{FlatSpec, Matchers}
+import restricted._
 
 class ToStringMaskTest extends FlatSpec with Matchers {
 
@@ -57,6 +58,14 @@ class ToStringMaskTest extends FlatSpec with Matchers {
 
     // then
     sc.toString should be("SmallClass(***)")
+  }
+
+  it should "work on classes with access control" in {
+    // given
+    val obj = RestrictedObjectProvider.provide()
+
+    // then
+    obj.toString should be("ClassWithAccessControl(***)")
   }
 
 }

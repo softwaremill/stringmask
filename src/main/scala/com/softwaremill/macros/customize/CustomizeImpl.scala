@@ -17,11 +17,19 @@ class CustomizeImpl(val c: whitebox.Context) {
   def impl(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
 
+    sealed trait ClassAccess
+    final case class Restricted(pkg: Name) extends ClassAccess
+    final case class Unrestricted()        extends ClassAccess
+
     def extractCaseClassesParts(classDecl: ClassDef) = classDecl match {
       case q"""case class $className(..$fields) extends ..$parents { ..$body }""" =>
-        (className, fields, parents, body)
+        (Unrestricted, className, fields, parents, body)
       case q"""case class $className private(..$fields) extends ..$parents { ..$body }""" =>
-        (className, fields, parents, body)
+        (Unrestricted, className, fields, parents, body)
+      case q"""private[$pkg] case class $className(..$fields) extends ..$parents { ..$body }""" =>
+        (Restricted(pkg), className, fields, parents, body)
+      case q"""private[$pkg] case class $className private(..$fields) extends ..$parents { ..$body }""" =>
+        (Restricted(pkg), className, fields, parents, body)
       case _ => c.abort(c.enclosingPosition, "Unsupported case class type. Cannot rewrite toString().")
     }
 
@@ -51,17 +59,29 @@ class CustomizeImpl(val c: whitebox.Context) {
     }
 
     def modifiedDeclaration(classDecl: ClassDef, tail: List[Tree] = List.empty) = {
-      val (className, fields, parents, body) = extractCaseClassesParts(classDecl)
-      val newToString                        = extractNewToString(className, fields)
+      val (access, className, fields, parents, body) = extractCaseClassesParts(classDecl)
+      val newToString                                = extractNewToString(className, fields)
       val params = fields.asInstanceOf[List[ValDef]] map { p =>
         p.duplicate
       }
-      val e          = q"""
+
+      val e = access match {
+        case Restricted(pkgName) =>
+          q"""
+        private[$pkgName] case class $className ( ..$params ) extends ..$parents {
+          $newToString
+          ..$body
+        }
+      """
+        case Unrestricted =>
+          q"""
         case class $className ( ..$params ) extends ..$parents {
           $newToString
           ..$body
         }
       """
+      }
+
       val blockItems = e +: tail
       c.Expr[Any](q"{..$blockItems}")
     }
